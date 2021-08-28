@@ -160,4 +160,36 @@ public class Answers {
         }
         return economicalBowler;
     }
+
+
+    //Answer 5
+    public HashMap<String,Integer> TotalMatchesPlayedInEveryCity()
+    {
+        String row;
+        HashMap<String,Integer> Cities=new HashMap<>();
+        try(BufferedReader br = new BufferedReader(new FileReader("/home/kali/IdeaProjects/IPL_Project/matches.csv")))
+        {
+            while ((row = br.readLine()) != null)
+            {
+                String dataSet[]= row.split(",");
+                if(Cities.containsKey(dataSet[2]))
+                {
+                    Cities.put(dataSet[2], Cities.get(dataSet[2]) + 1);
+                }
+                else{
+                    Cities.put(dataSet[2],1);
+                }
+
+            }
+            if(Cities.containsKey(""))
+                Cities.remove("");
+            //System.out.println(Cities);
+        }
+
+        catch(Exception e)
+        {
+            e.getMessage();
+        }
+        return Cities;
+    }
 }

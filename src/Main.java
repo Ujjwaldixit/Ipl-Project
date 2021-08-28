@@ -7,8 +7,14 @@ public class Main {
         HashMap<String,Integer> data;
        Answers answers=new Answers();
        answers.matchesWonOfAllTeams();
+
+       System.out.println("Press 1: Number of matches played per year of all the years in IPL.");
+       System.out.println("Press 2: Number of matches won of all teams over all the years of IPL.") ;
+       System.out.println("Press 3: For the year 2016 get the extra runs conceded per team.");
+       System.out.println("Press 4:For the year 2015 get the top economical bowlers");
+       System.out.println("Press 5:Total No. of Matches Played in Every City");
        int input=sc.nextInt();
-       switch (input)
+        switch (input)
        {
            case 1: {
                data = answers.NumberOfMatchesPlayedPerYearOfAllYears();
@@ -55,6 +61,15 @@ public class Main {
                   }
                }
                break;
+           }
+
+           case 5:
+           {
+               data=answers.TotalMatchesPlayedInEveryCity();
+               System.out.println("City"+"                   "+" No of Matches");
+               for (Map.Entry<String, Integer> entry : data.entrySet()) {
+                   System.out.println("| "+entry.getKey() + " |        | " + entry.getValue().toString()+" |");
+               }
            }
         }
     }
