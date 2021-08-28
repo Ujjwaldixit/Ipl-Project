@@ -36,11 +36,17 @@ public class Answers {
 
 
     //Answer2
-    public void matchesWonOfAllTeams() {
+    public HashMap matchesWonOfAllTeams() {
         String row;
+        int counter=0;
         HashMap<String, Integer> AllYearsMatches = new HashMap<>();
         try (BufferedReader br = new BufferedReader(new FileReader("/home/kali/IdeaProjects/IPL_Project/matches.csv"))) {
             while ((row = br.readLine()) != null) {
+                if(counter==0)
+                {
+                    counter++;
+                    continue;
+                }
                 String dataSet[] = row.split(",");
                 if (!AllYearsMatches.containsKey(dataSet[4])) {
                     AllYearsMatches.put(dataSet[4], 0);
@@ -53,19 +59,22 @@ public class Answers {
                 } else {
                     AllYearsMatches.put(dataSet[10], AllYearsMatches.get(dataSet[10]) + 1);
                 }
-
             }
-            System.out.println(AllYearsMatches);
+            if(AllYearsMatches.containsKey(""))
+            {
+                AllYearsMatches.remove(""); //some blank key was there
+            }
         } catch (Exception e) {
             e.getMessage();
         }
+        return AllYearsMatches;
     }
 
 
 
 
     //Answer3
-    public void ExtraRunsConcededPerTeamOf2016() {
+    public HashMap<String,Integer> ExtraRunsConcededPerTeamOf2016() {
         String row;
         HashMap<String, Integer> extraRuns2016 = new HashMap<>();
         LinkedHashSet<String> MatchId = new LinkedHashSet<>();
@@ -90,7 +99,7 @@ public class Answers {
                 String dataSet[]=row.split(",");
                 if(MatchId.contains(dataSet[0]))
                 {
-                    System.out.println("da"+dataSet[0]);
+                    //System.out.println("da"+dataSet[0]);
                     if(!extraRuns2016.containsKey(dataSet[2]))
                     {
                         extraRuns2016.put(dataSet[2],0);
@@ -100,15 +109,16 @@ public class Answers {
                     }
                 }
             }
-            System.out.println(extraRuns2016);
+            //System.out.println(extraRuns2016);
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return extraRuns2016;
     }
 
 
     //Answer4
-    public void topEconomicalBowler2015()
+    public HashMap<String, Integer> topEconomicalBowler2015()
     {
         String row;
         LinkedHashSet<String> MatchId = new LinkedHashSet<>();
@@ -144,10 +154,10 @@ public class Answers {
                     }
                 }
             }
-            System.out.println(economicalBowler);
+          //  System.out.println(economicalBowler);
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        return economicalBowler;
     }
 }
