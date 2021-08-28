@@ -8,7 +8,8 @@ public class Main {
        Answers answers=new Answers();
        answers.matchesWonOfAllTeams();
        int input=sc.nextInt();
-       switch (input) {
+       switch (input)
+       {
            case 1: {
                data = answers.NumberOfMatchesPlayedPerYearOfAllYears();
                System.out.println("Year" + "                 " + "No.of Matches");
