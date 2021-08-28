@@ -59,45 +59,25 @@ public class Answers {
         } catch (Exception e) {
             e.getMessage();
         }
-
     }
 
+
+
+
+    //Answer3
     public void ExtraRunsConcededPerTeamOf2016() {
         String row;
         HashMap<String, Integer> extraRuns2016 = new HashMap<>();
-        LinkedHashSet<String> set=new LinkedHashSet<>();
-        int counter=0;   // to skip first row
+        LinkedHashSet<String> MatchId = new LinkedHashSet<>();
+        int counter = 0;   // to skip first row
         try (BufferedReader br = new BufferedReader(new FileReader("/home/kali/IdeaProjects/IPL_Project/matches.csv"))) {
             while ((row = br.readLine()) != null) {
-                 String dataSet[]=row.split(",");
+                String dataSet[] = row.split(",");
                 //System.out.println(dataSet[1]);
-                 if(dataSet[1].equals("2016"))
-                 {
-                        set.add(dataSet[0]);
-                 }
-            }
-            //Collections.sort(set);
-            //System.out.println(set);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        try (BufferedReader br = new BufferedReader(new FileReader("/home/kali/IdeaProjects/IPL_Project/deliveries.csv"))) {
-            while ((row = br.readLine()) != null) {
-                String dataSet[]=row.split(",");
-                if(set.contains(dataSet[0]))
-                {
-                    System.out.println("da"+dataSet[0]);
-                    if(!extraRuns2016.containsKey(dataSet[2]))
-                    {
-                        extraRuns2016.put(dataSet[2],0);
-                    }
-                    else{
-                        extraRuns2016.put(dataSet[2],extraRuns2016.get(dataSet[2])+Integer.parseInt(dataSet[16]));
-                    }
+                if (dataSet[1].equals("2016")) {
+                    MatchId.add(dataSet[0]);
                 }
             }
-            System.out.println(extraRuns2016);
         } catch (Exception e) {
             e.printStackTrace();
         }
