@@ -105,4 +105,49 @@ public class Answers {
             e.printStackTrace();
         }
     }
+
+
+    //Answer4
+    public void topEconomicalBowler2015()
+    {
+        String row;
+        LinkedHashSet<String> MatchId = new LinkedHashSet<>();
+        int counter = 0;   // to skip first row
+        try (BufferedReader br = new BufferedReader(new FileReader("/home/kali/IdeaProjects/IPL_Project/matches.csv")))
+        {
+            while ((row = br.readLine()) != null) {
+                String dataSet[] = row.split(",");
+
+                //storing ID to set so that we can retrieve the data of corresponding from deliveries.csv
+                if (dataSet[1].equals("2015")) {
+                    MatchId.add(dataSet[0]);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        HashMap<String,Integer> economicalBowler=new HashMap<>();
+        try (BufferedReader br = new BufferedReader(new FileReader("/home/kali/IdeaProjects/IPL_Project/deliveries.csv"))) {
+            while ((row = br.readLine()) != null)
+            {
+                String dataSet[]=row.split(",");
+                if(MatchId.contains(dataSet[0]))
+                {
+                   //System.out.println("da"+dataSet[0]);
+                    if(!economicalBowler.containsKey(dataSet[8]))
+                    {
+                        economicalBowler.put(dataSet[8],Integer.parseInt(dataSet[17]));
+                    }
+                    else{
+                       economicalBowler.put(dataSet[8],economicalBowler.get(dataSet[8])+Integer.parseInt(dataSet[17]));
+                    }
+                }
+            }
+            System.out.println(economicalBowler);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
 }
