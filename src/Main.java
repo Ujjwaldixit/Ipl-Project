@@ -6,21 +6,54 @@ public class Main {
     public static void main(String args[]) {
         List<Match> matchesData = getMatchesData();
         System.out.println(matchesData.get(2).getId());
-        HashMap<String,Integer> matchesPlayedPerYear = getMatchesPlayedPerYear(matchesData);
+        HashMap<String, Integer> matchesPlayedPerYear = getMatchesPlayedPerYear(matchesData);
         System.out.println(matchesPlayedPerYear);
-        HashMap<String,Integer> noOfMatchesWonByAllTeams=countTheNoofMatchesWOnByAllTeams(match);
+        HashMap<String, Integer> noOfMatchesWonByAllTeams = getTheNoOfMatchesWOnByAllTeams(matchesData);
+        System.out.println(noOfMatchesWonByAllTeams);
+        HashMap<String,Integer> extraRunsPerTeamIn2016=getExtraRunsPerTeams();
 
 
     }
 
+    private static HashMap<String, Integer> getTheNoOfMatchesWOnByAllTeams(List<Match> matchesData) {
+        int counter = 0; //to skip first row.
+        HashMap<String, Integer> matchesWonPerTeam = new HashMap<>();
+        Iterator<Match> iterator = matchesData.iterator();
+        while (iterator.hasNext()) {
+            Match match = iterator.next();
+            if (counter == 0) {
+                counter++;
+                continue;
+            }
+
+            if (!matchesWonPerTeam.containsKey(match.getTeam1())) {
+                matchesWonPerTeam.put(match.getTeam1(), 0);
+            }
+
+            if (!matchesWonPerTeam.containsKey(match.getTeam2())) {
+                matchesWonPerTeam.put(match.getTeam2(), 0);
+            }
+
+            if (!matchesWonPerTeam.containsKey(match.getWinner())) {
+                matchesWonPerTeam.put(match.getWinner(), 0);
+            } else {
+                matchesWonPerTeam.put(match.getWinner(), 1 + matchesWonPerTeam.get(match.getWinner()));
+            }
+        }
+        if (matchesWonPerTeam.containsKey("")) {  //to remove blank key if present
+            matchesWonPerTeam.remove("");
+        }
+
+        return matchesWonPerTeam;
+    }
+
     private static HashMap<String, Integer> getMatchesPlayedPerYear(List<Match> matchesData) {
-        HashMap<String,Integer> matchesPlayedPerYear=new HashMap<>();
-        Iterator<Match> iterator=matchesData.iterator();
-        while(iterator.hasNext())
-        {
-            Match match=iterator.next();
+        HashMap<String, Integer> matchesPlayedPerYear = new HashMap<>();
+        Iterator<Match> iterator = matchesData.iterator();
+        while (iterator.hasNext()) {
+            Match match = iterator.next();
             if (matchesPlayedPerYear.containsKey(match.getSeason())) {
-                matchesPlayedPerYear.put(match.getSeason(), 1+matchesPlayedPerYear.get(match.getSeason()));
+                matchesPlayedPerYear.put(match.getSeason(), 1 + matchesPlayedPerYear.get(match.getSeason()));
             } else {
                 matchesPlayedPerYear.put(match.getSeason(), 1);
             }
