@@ -206,11 +206,6 @@ public class Main {
         return matchDataList;
     }
 
-    private static HashMap<String, Integer> getExtraRunsPerTeams(List<Match> matchesData) {
-
-        return null;
-
-    }
 
     private static HashMap<String, Integer> getTheNoOfMatchesWOnByAllTeams(List<Match> matchesData) {
         int counter = 0; //to skip first row.
