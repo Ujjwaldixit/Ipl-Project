@@ -22,7 +22,6 @@ public class Main {
 
         Scanner scanner = new Scanner(System.in); // take input to print result
         int input = scanner.nextInt();
-
         switch (input) {
             case 1: {
                 System.out.println("Season => Total Number of Matches");
