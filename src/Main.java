@@ -41,14 +41,14 @@ public class Main {
             case 4: {
                 System.out.println("Bowler => Runs Given");
                 //comparing Runs to sort the map
-                List list = new LinkedList(topEconomicalBowlers2015.entrySet());
-                Collections.sort(list, new Comparator() {
+                List listOfTopEconomicalBowlersOf2015 = new LinkedList(topEconomicalBowlers2015.entrySet());
+                Collections.sort(listOfTopEconomicalBowlersOf2015, new Comparator() {
                     public int compare(Object o1, Object o2) {
                         return ((Comparable) ((Map.Entry) (o1)).getValue()).compareTo(((Map.Entry) (o2)).getValue());
                     }
                 });
                 HashMap sortedHashMap = new LinkedHashMap();
-                for (Iterator it = list.iterator(); it.hasNext(); ) {
+                for (Iterator it = listOfTopEconomicalBowlersOf2015.iterator(); it.hasNext(); ) {
                     Map.Entry entry = (Map.Entry) it.next();
                     sortedHashMap.put(entry.getKey(), entry.getValue());
                 }
@@ -71,114 +71,120 @@ public class Main {
     }
 
     private static HashMap<String, Integer> getTotalMatchesPlayedInEachCity(List<Match> matchesData) {
-        HashMap<String, Integer> matchesPlayedPerCity = new HashMap<>();
-        Iterator<Match> iterator = matchesData.iterator();
-        while (iterator.hasNext()) {
-            Match match = iterator.next();
-            if (matchesPlayedPerCity.containsKey(match.getCity())) {
-                matchesPlayedPerCity.put(match.getCity(), matchesPlayedPerCity.get(match.getCity()) + 1);
+        HashMap<String, Integer> totalMatchesPlayedPerCity = new HashMap<>();
+        Iterator<Match> matchData = matchesData.iterator();
+        while (matchData.hasNext()) {
+            Match match = matchData.next();
+            if (totalMatchesPlayedPerCity.containsKey(match.getCity())) {
+                totalMatchesPlayedPerCity.put(match.getCity(), totalMatchesPlayedPerCity.get(match.getCity()) + 1);
             } else {
-                matchesPlayedPerCity.put(match.getCity(), 1);
+                totalMatchesPlayedPerCity.put(match.getCity(), 1);
             }
         }
-        if (matchesPlayedPerCity.containsKey(""))   // if matchesPlayedPerCity contains empty key
-            matchesPlayedPerCity.remove("");
+        if (totalMatchesPlayedPerCity.containsKey(""))   // if totalMatchesPlayedPerCity contains empty key
+            totalMatchesPlayedPerCity.remove("");
 
-        return matchesPlayedPerCity;
+        return totalMatchesPlayedPerCity;
     }
 
-    private static HashMap<String, Integer> getTopEconomicalBowler(List<Match> matchesData, List<Delivery> deliveryData) {
-        HashMap<String, Integer> topEconomicalBowler = new HashMap<>();
-        LinkedHashSet<String> MatchId = new LinkedHashSet<>();
-        Iterator<Match> Matchiterator = matchesData.iterator();
-        while (Matchiterator.hasNext()) {
-            Match match = Matchiterator.next();
+    private static HashMap<String, Integer> getTopEconomicalBowler(List<Match> matchesData, List<Delivery> deliveriesData) {
+        HashMap<String, Integer> bowlerPerRunGiven = new HashMap<>();
+        LinkedHashSet<String> matchIds = new LinkedHashSet<>();
+        Iterator<Match> matchData = matchesData.iterator();
+        while (matchData.hasNext()) {
+            Match match = matchData.next();
             if (match.getSeason().equals("2015")) {
-                MatchId.add(match.getId());
+                matchIds.add(match.getId());
             }
         }
 
-        Iterator<Delivery> deliveryIterator = deliveryData.iterator();
-        while (deliveryIterator.hasNext()) {
-            Delivery delivery = deliveryIterator.next();
-            if (MatchId.contains(delivery.getMatch_id())) {
-                if (!topEconomicalBowler.containsKey(delivery.getBowler())) {
-                    topEconomicalBowler.put(delivery.getBowler(), Integer.parseInt(delivery.getTotal_runs()));
+        Iterator<Delivery> deliveryData = deliveriesData.iterator();
+        while (deliveryData.hasNext()) {
+            Delivery delivery = deliveryData.next();
+            if (matchIds.contains(delivery.getMatch_id())) {
+                if (!bowlerPerRunGiven.containsKey(delivery.getBowler())) {
+                    bowlerPerRunGiven.put(delivery.getBowler(), Integer.parseInt(delivery.getTotal_runs()));
                 } else {
-                    topEconomicalBowler.put(delivery.getBowler(), topEconomicalBowler.get(delivery.getBowler()) + Integer.parseInt(delivery.getTotal_runs()));
+                    bowlerPerRunGiven.put(delivery.getBowler(), bowlerPerRunGiven.get(delivery.getBowler())
+                            + Integer.parseInt(delivery.getTotal_runs()));
                 }
             }
         }
-        return topEconomicalBowler;
+        return bowlerPerRunGiven;
     }
 
-    private static HashMap<String, Integer> getExtraRunsPerTeamsIn2016(List<Match> matchesData, List<Delivery> deliveryData) {
-        HashMap<String, Integer> extraRunsPerTeamIn2016 = new HashMap<>();
-        LinkedHashSet<String> MatchId = new LinkedHashSet<>();
-        Iterator<Match> Matchiterator = matchesData.iterator();
-        while (Matchiterator.hasNext()) {
-            Match match = Matchiterator.next();
+    private static HashMap<String, Integer> getExtraRunsPerTeamsIn2016(List<Match> matchesData, List<Delivery> deliveriesData) {
+        HashMap<String, Integer> teamPerExtraRuns = new HashMap<>();
+        LinkedHashSet<String> matchIds = new LinkedHashSet<>();
+        Iterator<Match> matchData = matchesData.iterator();
+        while (matchData.hasNext()) {
+            Match match = matchData.next();
             if (match.getSeason().equals("2016")) {
-                MatchId.add(match.getId());
+                matchIds.add(match.getId());
             }
         }
 
-        Iterator<Delivery> deliveryIterator = deliveryData.iterator();
-        while (deliveryIterator.hasNext()) {
-            Delivery delivery = deliveryIterator.next();
-            if (MatchId.contains(delivery.getMatch_id())) {
-                if (!extraRunsPerTeamIn2016.containsKey(delivery.getBatting_team())) {
-                    extraRunsPerTeamIn2016.put(delivery.getBatting_team(), Integer.parseInt(delivery.getExtra_runs()));
+        Iterator<Delivery> deliveryData = deliveriesData.iterator();
+        while (deliveryData.hasNext()) {
+            Delivery delivery = deliveryData.next();
+            if (matchIds.contains(delivery.getMatch_id())) {
+                if (!teamPerExtraRuns.containsKey(delivery.getBatting_team())) {
+                    teamPerExtraRuns.put(delivery.getBatting_team(), Integer.parseInt(delivery.getExtra_runs()));
                 } else {
-                    extraRunsPerTeamIn2016.put(delivery.getBatting_team(), extraRunsPerTeamIn2016.get(delivery.getBatting_team()) + Integer.parseInt(delivery.getExtra_runs()));
+                    teamPerExtraRuns.put(delivery.getBatting_team(), teamPerExtraRuns.get(delivery.getBatting_team())
+                            + Integer.parseInt(delivery.getExtra_runs()));
                 }
             }
         }
-        return extraRunsPerTeamIn2016;
+        return teamPerExtraRuns;
     }
 
 
     private static List<Delivery> getDeliveryData() {
-        final int MATCH_ID = 0, INNING = 1, BATTING_TEAM = 2, BOWLING_TEAM = 3, OVER = 4, BAlL = 5, BATSMAN = 6, NON_STRIKER = 7, BOWLER = 8, IS_SUPER_OVER = 9, WIDE_RUNS = 10, BYE_RUNS = 11, LEGBYE_RUNS = 12, NOBALL_RUNS = 13, PENALTY_RUNS = 14, BATSMAN_RUN = 15, EXTRA_RUNS = 16, TOTAL_RUNS = 17, PLAYER_DISMISSED = 18, DISSMISSAL_KIND = 19, FIELDER = 20;
-        int counter = 0;
+        final int MATCH_ID = 0, INNING = 1, BATTING_TEAM = 2, BOWLING_TEAM = 3, OVER = 4, BAlL = 5, BATSMAN = 6,
+                NON_STRIKER = 7, BOWLER = 8, IS_SUPER_OVER = 9, WIDE_RUNS = 10, BYE_RUNS = 11, LEGBYE_RUNS = 12,
+                NOBALL_RUNS = 13, PENALTY_RUNS = 14, BATSMAN_RUN = 15, EXTRA_RUNS = 16, TOTAL_RUNS = 17,
+                PLAYER_DISMISSED = 18, DISMISSAL_KIND = 19, FIELDER = 20;
         String deliveryData;
-        List<Delivery> deliveryList = new ArrayList<>();
+        List<Delivery> deliveryDataList = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader("/home/kali/IdeaProjects/IPL_Project/deliveries.csv"))) {
             while ((deliveryData = br.readLine()) != null) {
-                String deliveryDataSplitted[] = deliveryData.split(",");
+                String deliveryDataColumn[] = deliveryData.split(","); //split delivery data by ","(comma)
                 Delivery delivery = new Delivery();
-                delivery.setMatch_id(deliveryDataSplitted[MATCH_ID]);
-                delivery.setInning(deliveryDataSplitted[INNING]);
-                delivery.setBatting_team(deliveryDataSplitted[BATTING_TEAM]);
-                delivery.setBowling_team(deliveryDataSplitted[BOWLING_TEAM]);
-                delivery.setOver(deliveryDataSplitted[OVER]);
-                delivery.setBall(deliveryDataSplitted[BAlL]);
-                delivery.setBatsman(deliveryDataSplitted[BATSMAN]);
-                delivery.setNon_striker(deliveryDataSplitted[NON_STRIKER]);
-                delivery.setBowler(deliveryDataSplitted[BOWLER]);
-                delivery.setIs_super_over(deliveryDataSplitted[IS_SUPER_OVER]);
-                delivery.setWide_runs(deliveryDataSplitted[WIDE_RUNS]);
-                delivery.setBye_runs(deliveryDataSplitted[BYE_RUNS]);
-                delivery.setNoball_runs(deliveryDataSplitted[NOBALL_RUNS]);
-                delivery.setLegbye_runs(deliveryDataSplitted[LEGBYE_RUNS]);
-                delivery.setPenalty_runs(deliveryDataSplitted[PENALTY_RUNS]);
-                delivery.setBatsman_runs(deliveryDataSplitted[BATSMAN_RUN]);
-                delivery.setExtra_runs(deliveryDataSplitted[EXTRA_RUNS]);
-                delivery.setTotal_runs(deliveryDataSplitted[TOTAL_RUNS]);
-//                delivery.setPlayer_dismissed(deliveryDataSplitted[PLAYER_DISMISSED]);
-//                delivery.setDismissal_kind(deliveryDataSplitted[DISSMISSAL_KIND]);
-//                delivery.setFielder(deliveryDataSplitted[FIELDER]);
-                deliveryList.add(delivery);
+                delivery.setMatch_id(deliveryDataColumn[MATCH_ID]);
+                delivery.setInning(deliveryDataColumn[INNING]);
+                delivery.setBatting_team(deliveryDataColumn[BATTING_TEAM]);
+                delivery.setBowling_team(deliveryDataColumn[BOWLING_TEAM]);
+                delivery.setOver(deliveryDataColumn[OVER]);
+                delivery.setBall(deliveryDataColumn[BAlL]);
+                delivery.setBatsman(deliveryDataColumn[BATSMAN]);
+                delivery.setNon_striker(deliveryDataColumn[NON_STRIKER]);
+                delivery.setBowler(deliveryDataColumn[BOWLER]);
+                delivery.setIs_super_over(deliveryDataColumn[IS_SUPER_OVER]);
+                delivery.setWide_runs(deliveryDataColumn[WIDE_RUNS]);
+                delivery.setBye_runs(deliveryDataColumn[BYE_RUNS]);
+                delivery.setNoball_runs(deliveryDataColumn[NOBALL_RUNS]);
+                delivery.setLegbye_runs(deliveryDataColumn[LEGBYE_RUNS]);
+                delivery.setPenalty_runs(deliveryDataColumn[PENALTY_RUNS]);
+                delivery.setBatsman_runs(deliveryDataColumn[BATSMAN_RUN]);
+                delivery.setExtra_runs(deliveryDataColumn[EXTRA_RUNS]);
+                delivery.setTotal_runs(deliveryDataColumn[TOTAL_RUNS]);
+//                delivery.setPlayer_dismissed(deliveryDataColumn[PLAYER_DISMISSED]);
+//                delivery.setDismissal_kind(deliveryDataColumn[DISMISSAL_KIND]);
+//                delivery.setFielder(deliveryDataColumn[FIELDER]);
+                deliveryDataList.add(delivery);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return deliveryList;
+        return deliveryDataList;
     }
 
 
     private static List<Match> getMatchesData() {
-        final int ID = 0, SEASON = 1, CITY = 2, DATE = 3, TEAM1 = 4, TEAM2 = 5, TOSS_WINNER = 6, TOSS_DECISION = 7, RESULT = 8, DL_APPLIE = 9, WINNER = 10, WIN_BY_RUNS = 11, WIN_BY_WICKETS = 12, PLAYER_OF_MATCH = 13, VENUE = 14, UMPIRE1 = 15, UMPIRE2 = 16, UMPIRE3 = 17;
+        final int ID = 0, SEASON = 1, CITY = 2, DATE = 3, TEAM1 = 4, TEAM2 = 5, TOSS_WINNER = 6, TOSS_DECISION = 7,
+                RESULT = 8, DL_APPLIED = 9, WINNER = 10, WIN_BY_RUNS = 11, WIN_BY_WICKETS = 12, PLAYER_OF_MATCH = 13,
+                VENUE = 14, UMPIRE1 = 15, UMPIRE2 = 16, UMPIRE3 = 17;
         int counter = 0;
         String matchData;
         List<Match> matchDataList = new ArrayList<>();
@@ -189,15 +195,15 @@ public class Main {
                     counter++;
                     continue;
                 }
-                String matchDataSplitted[] = matchData.split(",");
-                match.setId(matchDataSplitted[0]);
-                match.setSeason(matchDataSplitted[1]);
-                match.setCity(matchDataSplitted[2]);
-                match.setDate(matchDataSplitted[3]);
-                match.setTeam1(matchDataSplitted[4]);
-                match.setTeam2(matchDataSplitted[5]);
-                match.setToss_decision(matchDataSplitted[6]);
-                match.setWinner(matchDataSplitted[10]);
+                String matchDataColumn[] = matchData.split(","); // splitting matches.csv data by ","(comma)
+                match.setId(matchDataColumn[ID]);
+                match.setSeason(matchDataColumn[SEASON]);
+                match.setCity(matchDataColumn[CITY]);
+                match.setDate(matchDataColumn[TEAM1]);
+                match.setTeam1(matchDataColumn[TEAM2]);
+                match.setTeam2(matchDataColumn[TOSS_WINNER]);
+                match.setToss_decision(matchDataColumn[TOSS_DECISION]);
+                match.setWinner(matchDataColumn[WINNER]);
                 matchDataList.add(match);
             }
         } catch (Exception e) {
@@ -208,24 +214,16 @@ public class Main {
 
 
     private static HashMap<String, Integer> getTheNoOfMatchesWOnByAllTeams(List<Match> matchesData) {
-        int counter = 0; //to skip first row.
         HashMap<String, Integer> matchesWonPerTeam = new HashMap<>();
         Iterator<Match> iterator = matchesData.iterator();
         while (iterator.hasNext()) {
             Match match = iterator.next();
-            if (counter == 0) {
-                counter++;
-                continue;
-            }
-
             if (!matchesWonPerTeam.containsKey(match.getTeam1())) {
                 matchesWonPerTeam.put(match.getTeam1(), 0);
             }
-
             if (!matchesWonPerTeam.containsKey(match.getTeam2())) {
                 matchesWonPerTeam.put(match.getTeam2(), 0);
             }
-
             if (!matchesWonPerTeam.containsKey(match.getWinner())) {
                 matchesWonPerTeam.put(match.getWinner(), 0);
             } else {
@@ -252,5 +250,4 @@ public class Main {
         }
         return matchesPlayedPerYear;
     }
-
 }

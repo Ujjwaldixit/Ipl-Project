@@ -11,6 +11,15 @@ public class Delivery {
     private String is_super_over;
     private String wide_runs;
     private String bye_runs;
+    private String legbye_runs;
+    private String noball_runs;
+    private String penalty_runs;
+    private String batsman_runs;
+    private String extra_runs;
+    private String total_runs;
+    private String player_dismissed;
+    private String dismissal_kind;
+    private String fielder;
 
     public String getMatch_id() {
         return match_id;
@@ -180,14 +189,6 @@ public class Delivery {
         this.fielder = fielder;
     }
 
-    private String legbye_runs;
-    private String noball_runs;
-    private String penalty_runs;
-    private String batsman_runs;
-    private String extra_runs;
-    private String total_runs;
-    private String player_dismissed;
-    private String dismissal_kind;
-    private String fielder;
+
 
 }
