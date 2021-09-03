@@ -1,4 +1,3 @@
-import javax.swing.text.html.parser.Entity;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.*;
@@ -9,10 +8,10 @@ public class Main {
         List<Delivery> deliveryData = getDeliveryData();
 
         HashMap<String, Integer> matchesPlayedPerYear = getMatchesPlayedPerYear(matchesData);
-        HashMap<String, Integer> noOfMatchesWonByAllTeams = getTheNoOfMatchesWOnByAllTeams(matchesData);
+        HashMap<String, Integer> teamsPerMatchesWon = getMatchesWonPerTeam(matchesData);
         HashMap<String, Integer> extraRunsPerTeamIn2016 = getExtraRunsPerTeamsIn2016(matchesData, deliveryData);
-        HashMap<String, Integer> topEconomicalBowlers2015 = getTopEconomicalBowler(matchesData, deliveryData);
-        HashMap<String, Integer> totalMatchesPlayedPlayedInEachCity = getTotalMatchesPlayedInEachCity(matchesData);
+        HashMap<String, Integer> bowlerPerRunIn2015 = getEconomicalBowlersPerRunGivenIn2015(matchesData, deliveryData);
+        HashMap<String, Integer> totalMatchesPerCity = getTotalMatchesPlayedPerCity(matchesData);
 
         System.out.println("Press 1: Number of matches played per year of all the years in IPL.");
         System.out.println("Press 2: Number of matches won of all teams over all the years of IPL.");
@@ -30,7 +29,7 @@ public class Main {
             }
             case 2: {
                 System.out.println("Team => Total Matches played");
-                printResultsInKeyValueFormat(noOfMatchesWonByAllTeams);
+                printResultsInKeyValueFormat(teamsPerMatchesWon);
                 break;
             }
             case 3: {
@@ -41,23 +40,23 @@ public class Main {
             case 4: {
                 System.out.println("Bowler => Runs Given");
                 //comparing Runs to sort the map
-                List listOfTopEconomicalBowlersOf2015 = new LinkedList(topEconomicalBowlers2015.entrySet());
-                Collections.sort(listOfTopEconomicalBowlersOf2015, new Comparator() {
+                List runsGivenByEachBowler = new LinkedList(bowlerPerRunIn2015.entrySet());
+                Collections.sort(runsGivenByEachBowler, new Comparator() {
                     public int compare(Object o1, Object o2) {
                         return ((Comparable) ((Map.Entry) (o1)).getValue()).compareTo(((Map.Entry) (o2)).getValue());
                     }
                 });
-                HashMap sortedHashMap = new LinkedHashMap();
-                for (Iterator it = listOfTopEconomicalBowlersOf2015.iterator(); it.hasNext(); ) {
+                HashMap bowlerPerRunGiven = new LinkedHashMap();
+                for (Iterator it = runsGivenByEachBowler.iterator(); it.hasNext(); ) {
                     Map.Entry entry = (Map.Entry) it.next();
-                    sortedHashMap.put(entry.getKey(), entry.getValue());
+                    bowlerPerRunGiven.put(entry.getKey(), entry.getValue());
                 }
-                printResultsInKeyValueFormat(sortedHashMap);
+                printResultsInKeyValueFormat(bowlerPerRunGiven);
                 break;
             }
             case 5: {
                 System.out.println("City => Number Of Matches");
-                printResultsInKeyValueFormat(totalMatchesPlayedPlayedInEachCity);
+                printResultsInKeyValueFormat(totalMatchesPerCity);
                 break;
             }
         }
@@ -70,7 +69,7 @@ public class Main {
         System.out.println("\n");
     }
 
-    private static HashMap<String, Integer> getTotalMatchesPlayedInEachCity(List<Match> matchesData) {
+    private static HashMap<String, Integer> getTotalMatchesPlayedPerCity(List<Match> matchesData) {
         HashMap<String, Integer> totalMatchesPlayedPerCity = new HashMap<>();
         Iterator<Match> matchData = matchesData.iterator();
         while (matchData.hasNext()) {
@@ -87,7 +86,7 @@ public class Main {
         return totalMatchesPlayedPerCity;
     }
 
-    private static HashMap<String, Integer> getTopEconomicalBowler(List<Match> matchesData, List<Delivery> deliveriesData) {
+    private static HashMap<String, Integer> getEconomicalBowlersPerRunGivenIn2015(List<Match> matchesData, List<Delivery> deliveriesData) {
         HashMap<String, Integer> bowlerPerRunGiven = new HashMap<>();
         LinkedHashSet<String> matchIds = new LinkedHashSet<>();
         Iterator<Match> matchData = matchesData.iterator();
@@ -213,7 +212,7 @@ public class Main {
     }
 
 
-    private static HashMap<String, Integer> getTheNoOfMatchesWOnByAllTeams(List<Match> matchesData) {
+    private static HashMap<String, Integer> getMatchesWonPerTeam(List<Match> matchesData) {
         HashMap<String, Integer> matchesWonPerTeam = new HashMap<>();
         Iterator<Match> iterator = matchesData.iterator();
         while (iterator.hasNext()) {
