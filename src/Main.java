@@ -23,9 +23,9 @@ public class Main {
         findTotalMatchesPlayedPerCity(matches);
     }
 
-    private static void findTotalMatchesPlayedPerCity(List<Match> matchesData) {
+    private static void findTotalMatchesPlayedPerCity(List<Match> matches) {
         HashMap<String, Integer> totalMatchesPlayedPerCity = new HashMap<>();
-        for (Match match : matchesData) {
+        for (Match match : matches) {
             if (totalMatchesPlayedPerCity.containsKey(match.getCity())) {
                 totalMatchesPlayedPerCity.put(match.getCity(), totalMatchesPlayedPerCity.get(match.getCity()) + 1);
             } else {
@@ -42,16 +42,16 @@ public class Main {
     }
 
 
-    private static void findEconomicalBowlersPerRunGivenIn2015(List<Match> matchesData, List<Delivery> deliveriesData) {
+    private static void findEconomicalBowlersPerRunGivenIn2015(List<Match> matches, List<Delivery> deliveries) {
         HashMap<String, Integer> bowlerPerRunGiven = new HashMap<>();
         LinkedHashSet<String> matchIds = new LinkedHashSet<>();
-        for (Match match : matchesData) {
+        for (Match match : matches) {
             if (match.getSeason().equals("2015")) {
                 matchIds.add(match.getId());
             }
         }
 
-        for (Delivery delivery : deliveriesData) {
+        for (Delivery delivery : deliveries) {
             if (matchIds.contains(delivery.getMatch_id())) {
                 if (!bowlerPerRunGiven.containsKey(delivery.getBowler())) {
                     bowlerPerRunGiven.put(delivery.getBowler(), Integer.parseInt(delivery.getTotalRuns()));
@@ -69,16 +69,16 @@ public class Main {
 
     }
 
-    private static void findExtraRunsPerTeamsIn2016(List<Match> matchesData, List<Delivery> deliveriesData) {
+    private static void findExtraRunsPerTeamsIn2016(List<Match> matches, List<Delivery> deliveries) {
         HashMap<String, Integer> teamPerExtraRuns = new HashMap<>();
         LinkedHashSet<String> matchIds = new LinkedHashSet<>();
-        for (Match match : matchesData) {
+        for (Match match : matches) {
             if (match.getSeason().equals("2016")) {
                 matchIds.add(match.getId());
             }
         }
 
-        for (Delivery delivery : deliveriesData) {
+        for (Delivery delivery : deliveries) {
             if (matchIds.contains(delivery.getMatch_id())) {
                 if (!teamPerExtraRuns.containsKey(delivery.getBattingTeam())) {
                     teamPerExtraRuns.put(delivery.getBattingTeam(), Integer.parseInt(delivery.getExtraRuns()));
@@ -161,9 +161,9 @@ public class Main {
     }
 
 
-    private static void findMatchesWonPerTeam(List<Match> matchesData) {
+    private static void findMatchesWonPerTeam(List<Match> matches) {
         HashMap<String, Integer> matchesWonPerTeam = new HashMap<>();
-        for (Match match : matchesData) {
+        for (Match match : matches) {
             if (!matchesWonPerTeam.containsKey(match.getTeam1())) {
                 matchesWonPerTeam.put(match.getTeam1(), 0);
             }
